@@ -1,0 +1,1148 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/10/2024 12:01:18 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="XPAP2-D20796"
+  DTS:CreatorName="MAAU\smunaganur"
+  DTS:DTSID="{D45EB65E-1FA0-4979-BA81-3E473FA7DCF8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="3081"
+  DTS:ObjectName="NZ_MIDAS_PROVIDER"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{630679E9-E6F4-441A-AFBD-FD89E24B469F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[aubiwsqlPRD.EDW_150_History_Area]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5D0E2FA5-F68E-4957-A9DA-B1FEB3BCE17A}"
+      DTS:ObjectName="aubiwsqlPRD.EDW_150_History_Area">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=aubiwsqlPRD;Initial Catalog=EDW_150_History_Area;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{5D0E2FA5-F68E-4957-A9DA-B1FEB3BCE17A}aubiwsqlPRD.EDW_150_History_Area;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{7EBCAF41-4FB1-4C14-9450-F961BCA17307}"
+      DTS:ObjectName="aubiwsqlPRD.GSSS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=aubiwsqlPRD;Initial Catalog=GSSS;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{7EBCAF41-4FB1-4C14-9450-F961BCA17307}aubiwsqlPRD.GSSS;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\MIDAS_PROVIDER"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{ff973650-e085-4e44-90f0-77e4f462f448}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MIDAS_PROVIDER">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_PROVIDER\DELETE WHERE PROVIDER GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2baa124a-015e-4ccb-b5c8-e69d0d446511}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DELETE WHERE PROVIDER GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7EBCAF41-4FB1-4C14-9450-F961BCA17307}"
+              SQLTask:SqlStatementSource="DELETE FROM  dbo.PARTY WHERE SOURCE_TYPE = 'PROVIDER';&#xA;DELETE FROM dbo.PARTY_ADDRESS WHERE SOURCE_TYPE = 'PROVIDER';&#xA;DELETE FROM dbo.PARTY_ALIAS WHERE SOURCE_TYPE = 'PROVIDER';&#xA;DELETE FROM dbo.PARTY_BUSINESS_UNIT WHERE SOURCE_TYPE = 'PROVIDER';&#xA;DELETE FROM dbo.PARTY_DOCUMENTATION WHERE SOURCE_TYPE = 'PROVIDER';&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_PROVIDER\GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,PARTY_DOCUMENTATION"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{3973af56-a1cf-4cbb-b696-a1ce1b921d52}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,PARTY_DOCUMENTATION"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7EBCAF41-4FB1-4C14-9450-F961BCA17307}"
+              SQLTask:SqlStatementSource="--INSERT GSSS_PROVIDER_MASTER TO PARTY&#xA;INSERT INTO dbo.PARTY (&#xA;PARTY_KEY &#xA;,PARTY_FIRST_NAME,PARTY_LAST_NAME&#xA;,DELETE_CD, INFO_FIELD1, BUSINESS_UNIT ,PARTY_TYPE_CD ,IS_WLF_SANCTION_RELEVANT ,IS_WLF_PEP_RELEVANT&#xA;,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT &#xA;PARTY_KEY &#xA;,NAME,''&#xA;,'N' AS DELETE_CD, INFO_FIELD1,BUSINESS_UNIT,'O' AS PARTY_TYPE_CD,1 AS IS_WLF_SANCTION_RELEVANT,0 AS IS_WLF_PEP_RELEVANT&#xA;,GETDATE() AS GSSS_UPDATED,'PROVIDER' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_PROVIDER_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS' ;&#xA;&#xA;--INSERT GSSS_PROVIDER_MASTER TO PARTY_ADDRESS&#xA;INSERT INTO dbo.PARTY_ADDRESS(&#xA;PARTY_KEY,ADDRESS_LINE_1,ADDRESS_LINE_2,CITY&#xA;,COUNTRY_CD,STATE_PROVINCE,ZIP_CODE,BUSINESS_UNIT,DELETE_CD,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT&#xA;PARTY_KEY,BUILDING_PROPERTY_NAME1,STREET_NO + ' ' +STREET_NAME,LOCALITY_PLACE_SUBURB&#xA;,COUNTRY_CODE,STATE_TERRITORY,POSTCODE,BUSINESS_UNIT,'N' AS DELETE_CD,GETDATE() AS GSSS_UPDATED,'PROVIDER' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_PROVIDER_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;&#xA;--INSERT GSSS_PROVIDER_MASTER TO PARTY_BUSINESS_UNIT&#xA;INSERT INTO dbo.PARTY_BUSINESS_UNIT(&#xA;PARTY_KEY,BUSINESS_UNIT,DELETE_CD,IS_PRIMARY_BU,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT&#xA;PARTY_KEY,BUSINESS_UNIT,'N' AS DELETE_CD,'1' AS IS_PRIMARY_BU,GETDATE() AS GSSS_UPDATED,'PROVIDER' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_PROVIDER_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{ca7df1e5-3656-4da5-bb1e-1a3770d800d9}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GSSS_PROVIDER_MASTER"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GSSS_PROVIDER_MASTER]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OMD_CHANGE_DATETIME]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="OMD_CHANGE_DATETIME"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OMD_CHANGE_DATETIME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_CHANGE_DATETIME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OMD_INSERT_DATETIME]"
+                          cachedDataType="dbTimeStamp2"
+                          cachedName="OMD_INSERT_DATETIME"
+                          cachedScale="7"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OMD_INSERT_DATETIME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_INSERT_DATETIME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="NAME"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NAME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BUILDING_PROPERTY_NAME1]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="BUILDING_PROPERTY_NAME1"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUILDING_PROPERTY_NAME1]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUILDING_PROPERTY_NAME1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STREET_NO]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="STREET_NO"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STREET_NO]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NO]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STREET_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="STREET_NAME"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STREET_NAME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LOCALITY_PLACE_SUBURB]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="LOCALITY_PLACE_SUBURB"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCALITY_PLACE_SUBURB]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[LOCALITY_PLACE_SUBURB]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STATE_TERRITORY]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="STATE_TERRITORY"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_TERRITORY]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STATE_TERRITORY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[POSTCODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="POSTCODE"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTCODE]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTCODE]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COUNTRY_CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="COUNTRY_CODE"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY_CODE]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_CODE]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COUNTRY_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="COUNTRY_NAME"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY_NAME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BUSINESS_UNIT]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="10"
+                          cachedName="BUSINESS_UNIT"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUSINESS_UNIT]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUSINESS_UNIT]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[INFO_FIELD1]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="INFO_FIELD1"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[INFO_FIELD1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TRANSATION_TYPE]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="6"
+                          cachedName="TRANSATION_TYPE"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TRANSATION_TYPE]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRANSATION_TYPE]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PARTY_KEY]"
+                          cachedCodepage="1252"
+                          cachedDataType="str"
+                          cachedLength="37"
+                          cachedName="PARTY_KEY"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PROID]"
+                          cachedDataType="i8"
+                          cachedName="PROID"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PROVIDER_ID]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PROID]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PROVIDER_ID]"
+                          dataType="i8"
+                          name="PROVIDER_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OMD_CHANGE_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          name="OMD_CHANGE_DATETIME"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OMD_INSERT_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          name="OMD_INSERT_DATETIME"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ADDRESS_ID]"
+                          dataType="i8"
+                          name="ADDRESS_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUILDING_PROPERTY_NAME1]"
+                          dataType="wstr"
+                          length="100"
+                          name="BUILDING_PROPERTY_NAME1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STREET_NO]"
+                          dataType="wstr"
+                          length="100"
+                          name="STREET_NO" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STREET_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="STREET_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LOCALITY_PLACE_SUBURB]"
+                          dataType="wstr"
+                          length="100"
+                          name="LOCALITY_PLACE_SUBURB" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[STATE_TERRITORY]"
+                          dataType="wstr"
+                          length="100"
+                          name="STATE_TERRITORY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[POSTCODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="POSTCODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="COUNTRY_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COUNTRY_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="COUNTRY_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUSINESS_UNIT]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="BUSINESS_UNIT" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ALERT_BU" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          dataType="wstr"
+                          length="4000"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TRANSATION_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="6"
+                          name="TRANSATION_TYPE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="50"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE_TYPE]"
+                          dataType="wstr"
+                          length="50"
+                          name="SOURCE_TYPE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  description="OLE DB Source"
+                  name="OLE DB Source"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DISTINCT CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS BIGINT) AS PROID
+,HSTG_MIDAS_PROVIDER_MASTER.OMD_CHANGE_DATETIME
+,HSTG_MIDAS_PROVIDER_MASTER.OMD_INSERT_DATETIME
+,HSTG_MIDAS_PROVIDER_MASTER.NAME
+,HSTG_MIDAS_PROVIDER_ADDRESS.BUILDING_PROPERTY_NAME1
+,HSTG_MIDAS_PROVIDER_ADDRESS.STREET_NO
+,HSTG_MIDAS_PROVIDER_ADDRESS.STREET_NAME
+,HSTG_MIDAS_PROVIDER_ADDRESS.LOCALITY_PLACE_SUBURB
+,HSTG_MIDAS_PROVIDER_ADDRESS.STATE_TERRITORY
+,HSTG_MIDAS_PROVIDER_ADDRESS.POSTCODE
+,HSTG_MIDAS_COUNTRY_MASTER.COUNTRY_CODE
+,HSTG_MIDAS_COUNTRY_MASTER.NAME AS COUNTRY_NAME 
+,(CASE WHEN HSTG_MIDAS_COUNTRY_MASTER.COUNTRY_CODE = 'NZL' THEN 'AzP NZ AHS'
+  ELSE 'AzP AU AHS' 
+  END )  AS BUSINESS_UNIT
+ ,'ALERT_BU:' + CONVERT(NVARCHAR(MAX),CASE WHEN HSTG_MIDAS_COUNTRY_MASTER.COUNTRY_CODE != 'NZL' THEN 'AzP AU Assist Operations Network' ELSE 'AzP NZ Network Management' END) AS INFO_FIELD1 
+  ,'PAYMT' AS TRANSATION_TYPE
+,   CASE WHEN HSTG_MIDAS_COUNTRY_MASTER.COUNTRY_CODE = 'NZL' THEN 'NZ0001' ELSE 'AU0001' END + 'PR' + LEFT(CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS VARCHAR(30)), CHARINDEX('.', CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS VARCHAR(30)) + '.') - 1) + 'AD'
+ + CASE WHEN HSTG_MIDAS_PROVIDER_ADDRESS.ADDRESS_ID IS NOT NULL THEN LEFT(CAST(HSTG_MIDAS_PROVIDER_ADDRESS.ADDRESS_ID AS VARCHAR(30)), CHARINDEX('.', CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS VARCHAR(30)) + '.') - 1)  ELSE '' END
++ 'CL' +'MIDAS' AS PARTY_KEY
+FROM HSTG_MIDAS_PROVIDER_MASTER
+LEFT JOIN HSTG_MIDAS_PROVIDER_ADDRESS ON CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS BIGINT) = CAST(HSTG_MIDAS_PROVIDER_ADDRESS.PROVIDER_ID AS BIGINT) 
+     AND HSTG_MIDAS_PROVIDER_ADDRESS.OMD_CURRENT_RECORD_INDICATOR = 'Y' 
+LEFT JOIN 
+    (SELECT COUNTRY_ID,COUNTRY_CODE,NAME FROM HSTG_MIDAS_COUNTRY_MASTER 
+	WHERE HSTG_MIDAS_COUNTRY_MASTER.OMD_CURRENT_RECORD_INDICATOR = 'Y') 
+	AS HSTG_MIDAS_COUNTRY_MASTER ON CAST(HSTG_MIDAS_COUNTRY_MASTER.COUNTRY_ID AS BIGINT)=CAST(HSTG_MIDAS_PROVIDER_ADDRESS.COUNTRY_ID AS BIGINT)
+JOIN HSTG_MIDAS_H_INCIDENT_COST ON CAST(HSTG_MIDAS_H_INCIDENT_COST.ENTITY_ID AS BIGINT) = CAST(HSTG_MIDAS_PROVIDER_MASTER.PROVIDER_ID AS BIGINT)
+    AND HSTG_MIDAS_PROVIDER_MASTER.OMD_CURRENT_RECORD_INDICATOR = 'Y' --1817683
+JOIN HSTG_MIDAS_H_INCIDENT_MASTER ON CAST(HSTG_MIDAS_H_INCIDENT_COST.INCIDENT_ID AS BIGINT) = CAST(HSTG_MIDAS_H_INCIDENT_MASTER.INCIDENT_ID  AS BIGINT)
+    AND HSTG_MIDAS_H_INCIDENT_MASTER.OMD_CURRENT_RECORD_INDICATOR = 'Y'
+    AND HSTG_MIDAS_H_INCIDENT_COST.ENTITY_TYPE = 17 
+    AND HSTG_MIDAS_H_INCIDENT_MASTER.CREATED &gt;= CONVERT(VARCHAR(10),DATEADD(DAY,-14,GETDATE()),120)
+LEFT JOIN HSTG_MIDAS_H_COST_ITEM ON CAST(HSTG_MIDAS_H_COST_ITEM.INCIDENT_COST_ID  AS BIGINT)= CAST(HSTG_MIDAS_H_INCIDENT_COST.INCIDENT_COST_ID  AS BIGINT)
+    AND HSTG_MIDAS_H_INCIDENT_COST.OMD_CURRENT_RECORD_INDICATOR = 'Y' 
+LEFT JOIN HSTG_MIDAS_H_AP_INVOICE_CLAIM ON CAST(HSTG_MIDAS_H_AP_INVOICE_CLAIM.AP_INVOICE_CLAIM_ID  AS BIGINT)= CAST(HSTG_MIDAS_H_COST_ITEM.AP_INVOICE_CLAIM_ID AS BIGINT)
+    AND HSTG_MIDAS_H_COST_ITEM.OMD_CURRENT_RECORD_INDICATOR = 'Y' 
+	AND HSTG_MIDAS_H_AP_INVOICE_CLAIM.OMD_CURRENT_RECORD_INDICATOR = 'Y'</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.EDW_150_History_Area]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.EDW_150_History_Area]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output]"
+                      name="OLE DB Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_CHANGE_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OMD_CHANGE_DATETIME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_CHANGE_DATETIME]"
+                          name="OMD_CHANGE_DATETIME"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_INSERT_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OMD_INSERT_DATETIME]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[OMD_INSERT_DATETIME]"
+                          name="OMD_INSERT_DATETIME"
+                          scale="7"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[NAME]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NAME]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[NAME]"
+                          name="NAME"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUILDING_PROPERTY_NAME1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BUILDING_PROPERTY_NAME1]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUILDING_PROPERTY_NAME1]"
+                          name="BUILDING_PROPERTY_NAME1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NO]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STREET_NO]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NO]"
+                          name="STREET_NO"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NAME]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STREET_NAME]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STREET_NAME]"
+                          name="STREET_NAME"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[LOCALITY_PLACE_SUBURB]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LOCALITY_PLACE_SUBURB]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[LOCALITY_PLACE_SUBURB]"
+                          name="LOCALITY_PLACE_SUBURB"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STATE_TERRITORY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STATE_TERRITORY]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[STATE_TERRITORY]"
+                          name="STATE_TERRITORY"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTCODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTCODE]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[POSTCODE]"
+                          name="POSTCODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY_CODE]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_CODE]"
+                          name="COUNTRY_CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_NAME]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY_NAME]"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[COUNTRY_NAME]"
+                          name="COUNTRY_NAME"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUSINESS_UNIT]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BUSINESS_UNIT]"
+                          length="10"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[BUSINESS_UNIT]"
+                          name="BUSINESS_UNIT"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[INFO_FIELD1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[INFO_FIELD1]"
+                          length="50"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[INFO_FIELD1]"
+                          name="INFO_FIELD1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRANSATION_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TRANSATION_TYPE]"
+                          length="6"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[TRANSATION_TYPE]"
+                          name="TRANSATION_TYPE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTY_KEY]"
+                          codePage="1252"
+                          dataType="str"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PARTY_KEY]"
+                          length="37"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PARTY_KEY]"
+                          name="PARTY_KEY"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PROID]"
+                          dataType="i8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROID]"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].Columns[PROID]"
+                          name="PROID"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OMD_CHANGE_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          name="OMD_CHANGE_DATETIME"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OMD_INSERT_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          name="OMD_INSERT_DATETIME"
+                          scale="7" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BUILDING_PROPERTY_NAME1]"
+                          dataType="wstr"
+                          length="100"
+                          name="BUILDING_PROPERTY_NAME1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STREET_NO]"
+                          dataType="wstr"
+                          length="100"
+                          name="STREET_NO" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STREET_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="STREET_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LOCALITY_PLACE_SUBURB]"
+                          dataType="wstr"
+                          length="100"
+                          name="LOCALITY_PLACE_SUBURB" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STATE_TERRITORY]"
+                          dataType="wstr"
+                          length="100"
+                          name="STATE_TERRITORY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[POSTCODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="POSTCODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="COUNTRY_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COUNTRY_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          name="COUNTRY_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BUSINESS_UNIT]"
+                          codePage="1252"
+                          dataType="str"
+                          length="10"
+                          name="BUSINESS_UNIT" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[INFO_FIELD1]"
+                          dataType="nText"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TRANSATION_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5"
+                          name="TRANSATION_TYPE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PARTY_KEY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="77"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PROID]"
+                          dataType="i8"
+                          name="PROID" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                      isErrorOut="true"
+                      name="OLE DB Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROID]"
+                          dataType="i8"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PROID]"
+                          name="PROID" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OMD_CHANGE_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OMD_CHANGE_DATETIME]"
+                          name="OMD_CHANGE_DATETIME"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OMD_INSERT_DATETIME]"
+                          dataType="dbTimeStamp2"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OMD_INSERT_DATETIME]"
+                          name="OMD_INSERT_DATETIME"
+                          scale="7" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NAME]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NAME]"
+                          name="NAME" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BUILDING_PROPERTY_NAME1]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BUILDING_PROPERTY_NAME1]"
+                          name="BUILDING_PROPERTY_NAME1" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STREET_NO]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STREET_NO]"
+                          name="STREET_NO" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STREET_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STREET_NAME]"
+                          name="STREET_NAME" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LOCALITY_PLACE_SUBURB]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LOCALITY_PLACE_SUBURB]"
+                          name="LOCALITY_PLACE_SUBURB" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STATE_TERRITORY]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STATE_TERRITORY]"
+                          name="STATE_TERRITORY" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTCODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[POSTCODE]"
+                          name="POSTCODE" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COUNTRY_CODE]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COUNTRY_CODE]"
+                          name="COUNTRY_CODE" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COUNTRY_NAME]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COUNTRY_NAME]"
+                          name="COUNTRY_NAME" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BUSINESS_UNIT]"
+                          codePage="1252"
+                          dataType="str"
+                          length="10"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BUSINESS_UNIT]"
+                          name="BUSINESS_UNIT" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[INFO_FIELD1]"
+                          dataType="nText"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[INFO_FIELD1]"
+                          name="INFO_FIELD1" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TRANSATION_TYPE]"
+                          codePage="1252"
+                          dataType="str"
+                          length="5"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TRANSATION_TYPE]"
+                          name="TRANSATION_TYPE" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PARTY_KEY]"
+                          codePage="1252"
+                          dataType="str"
+                          length="77"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PARTY_KEY]"
+                          name="PARTY_KEY" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER.Paths[OLE DB Source Output]"
+                  endId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="OLE DB Source Output"
+                  startId="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source.Outputs[OLE DB Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_PROVIDER\Truncate GSSS-GSSS_PROVIDER_MASTER"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a495289a-5334-4256-b293-9bf1f473802f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate GSSS-GSSS_PROVIDER_MASTER"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7EBCAF41-4FB1-4C14-9450-F961BCA17307}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [GSSS].[dbo].[GSSS_PROVIDER_MASTER]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_PROVIDER\UPDATE COUNTRY"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{1d023985-d014-4cbd-aaa3-7874017dfe02}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UPDATE COUNTRY"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{7EBCAF41-4FB1-4C14-9450-F961BCA17307}"
+              SQLTask:SqlStatementSource="UPDATE [dbo].[GSSS_PROVIDER_MASTER]&#xA;SET [dbo].[GSSS_PROVIDER_MASTER].COUNTRY_NAME = [dbo].[COUNTRY].COUNTRY_NAME,&#xA;[dbo].[GSSS_PROVIDER_MASTER].COUNTRY_CODE = [dbo].[COUNTRY].COUNTRY_CD&#xA;FROM [dbo].[GSSS_PROVIDER_MASTER]&#xA;LEFT OUTER JOIN [dbo].[COUNTRY] ON UPPER([dbo].[GSSS_PROVIDER_MASTER].COUNTRY_NAME) = UPPER ([dbo].[COUNTRY].COUNTRY_NAME)&#xA;&#xA;&#xA;UPDATE [dbo].[GSSS_PROVIDER_MASTER]&#xA;SET ADDRESS_ID = (SELECT MAX([ADDRESS_ID])&#xA;FROM [dbo].[GSSS_PROVIDER_MASTER])&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{22b57cdc-ae1f-4cb8-aa57-3499a8c94cf9}"
+          DTS:From="Package\MIDAS_PROVIDER\Truncate GSSS-GSSS_PROVIDER_MASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\MIDAS_PROVIDER\DELETE WHERE PROVIDER GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,DOCUMENTATION" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{56a6205f-f8fb-45ed-96ac-d3732087a6c7}"
+          DTS:From="Package\MIDAS_PROVIDER\DELETE WHERE PROVIDER GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{1d86a60c-b84e-430e-b34e-2c6e7b38d915}"
+          DTS:From="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\MIDAS_PROVIDER\UPDATE COUNTRY" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{2208f374-e6f9-426b-a155-183a6c19b510}"
+          DTS:From="Package\MIDAS_PROVIDER\UPDATE COUNTRY"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\MIDAS_PROVIDER\GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,PARTY_DOCUMENTATION" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="714,42"
+          Id="Package\MIDAS_PROVIDER\DELETE WHERE PROVIDER GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          TopLeft="102,84" />
+        <NodeLayout
+          Size="225.333333333334,42"
+          Id="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER"
+          TopLeft="347.624999990687,150.684210539194" />
+        <NodeLayout
+          Size="606.666666666667,42"
+          Id="Package\MIDAS_PROVIDER\GSSS-GSSS_PROVIDER_MASTER TO PARTY,ADDRESS,BUSINESS_UNIT,PARTY_DOCUMENTATION"
+          TopLeft="159,312" />
+        <NodeLayout
+          Size="306,42"
+          Id="Package\MIDAS_PROVIDER\Truncate GSSS-GSSS_PROVIDER_MASTER"
+          TopLeft="304,12" />
+        <NodeLayout
+          Size="181.333333333334,42"
+          Id="Package\MIDAS_PROVIDER\UPDATE COUNTRY"
+          TopLeft="376,226" />
+        <EdgeLayout
+          Id="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint]"
+          TopLeft="458,54">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 1]"
+          TopLeft="459.645833328677,126">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.6842105391943"
+              Start="0,0"
+              End="0,17.1842105391943">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.1842105391943" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 2]"
+          TopLeft="463.47916666201,192.684210539194">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.3157894608057"
+              Start="0,0"
+              End="0,25.8157894608057">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.8157894608057" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_PROVIDER.PrecedenceConstraints[Constraint 3]"
+          TopLeft="464.5,268">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="1037.33333333334,433.333333333334"
+          Size="1037.33333333334,476"
+          Id="Package\MIDAS_PROVIDER"
+          TopLeft="169.999997466803,92.3684227912379" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Destination"
+          TopLeft="430.624999990687,230" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER\OLE DB Source"
+          TopLeft="425,49" />
+        <EdgeLayout
+          Id="Package\MIDAS_PROVIDER\GSSS_PROVIDER_MASTER.Paths[OLE DB Source Output]"
+          TopLeft="503.666666666667,91">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="15.6249999906867,139"
+              Start="0,0"
+              End="15.6249999906867,131.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,65.5"
+                    Point2="0,69.5"
+                    Point3="4,69.5" />
+                  <mssgle:LineSegment
+                    End="11.6249999906867,69.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="11.6249999906867,69.5"
+                    Point2="15.6249999906867,69.5"
+                    Point3="15.6249999906867,73.5" />
+                  <mssgle:LineSegment
+                    End="15.6249999906867,131.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

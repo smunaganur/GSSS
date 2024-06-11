@@ -1,0 +1,2572 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/10/2024 11:10:19 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="XPAP2-D20796"
+  DTS:CreatorName="MAAU\smunaganur"
+  DTS:DTSID="{65D62C95-2762-4796-8F3C-0CF68EA95CF6}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5270.0"
+  DTS:LocaleID="3081"
+  DTS:ObjectName="NZ_MIDAS_CLIENT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{E2B8DFAF-3C76-498E-B19B-8344670DACDD}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{72DF970C-AE15-42E5-9495-83D8AC64EAAA}"
+      DTS:ObjectName="aubiwsqlPRD.GSSS">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=aubiwsqlPRD;Initial Catalog=GSSS;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{72DF970C-AE15-42E5-9495-83D8AC64EAAA}aubiwsqlPRD.GSSS;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{8B71E187-4100-4916-928E-4538599F4C72}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\auap2prfil04.mondial-assistance.au.local\roles\GSSS_MIDAS_CLIENTS\GSSS Client Listing (Justin Walker)-2024-05-01-09-27-45.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\MIDAS_CLIENT"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{60d271f2-0790-400f-a489-55fbf6ee4a65}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="MIDAS_CLIENT">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_CLIENT\DELETE WHERE CLIENT GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{f16b7848-34bd-4fa0-a772-de7c155b91d4}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="DELETE WHERE CLIENT GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{72DF970C-AE15-42E5-9495-83D8AC64EAAA}"
+              SQLTask:SqlStatementSource="DELETE FROM  dbo.PARTY WHERE SOURCE_TYPE = 'CLIENT';&#xA;DELETE FROM dbo.PARTY_ADDRESS WHERE SOURCE_TYPE = 'CLIENT';&#xA;DELETE FROM dbo.PARTY_BUSINESS_UNIT WHERE SOURCE_TYPE = 'CLIENT';&#xA;DELETE FROM dbo.PARTY_DOCUMENTATION WHERE SOURCE_TYPE = 'CLIENT';" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_CLIENT\GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0bda4b07-45a0-4922-9c8f-5819003720cd}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{72DF970C-AE15-42E5-9495-83D8AC64EAAA}"
+              SQLTask:SqlStatementSource="--INSERT GSSS_CLIENT_MASTER TO PARTY&#xA;INSERT INTO dbo.PARTY (&#xA;PARTY_KEY,PARTY_FIRST_NAME,DELETE_CD, BUSINESS_UNIT &#xA;,PARTY_TYPE_CD ,IS_WLF_SANCTION_RELEVANT ,IS_WLF_PEP_RELEVANT,INFO_FIELD1&#xA;,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT &#xA;PARTY_KEY,CLIENT_NAME,'N' AS DELETE_CD, BUSINESS_UNIT&#xA;,'O' AS PARTY_TYPE_CD,1 AS IS_WLF_SANCTION_RELEVANT,0 AS IS_WLF_PEP_RELEVANT,INFO_FIELD1&#xA;,GETDATE() AS GSSS_UPDATED, 'CLIENT' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_CLIENT_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;&#xA;--INSERT GSSS_CLIENT_MASTER TO PARTY_ADDRESS&#xA;INSERT INTO dbo.PARTY_ADDRESS(&#xA;PARTY_KEY,ADDRESS_LINE_1,CITY&#xA;,COUNTRY_CD,STATE_PROVINCE,ZIP_CODE,BUSINESS_UNIT,DELETE_CD,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT&#xA;PARTY_KEY,BILLING_STREET,BILLING_CITY&#xA;,BILLING_COUNTRY,BILLING_STATE_PROVINCE,BILLING_ZIP_POSTAL_CODE, BUSINESS_UNIT,'N' AS DELETE_CD&#xA;,GETDATE() AS GSSS_UPDATED,'CLIENT' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_CLIENT_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;&#xA;--INSERT GSSS_CLIENT_MASTER TO PARTY_BUSINESS_UNIT&#xA;INSERT INTO dbo.PARTY_BUSINESS_UNIT(&#xA;PARTY_KEY,BUSINESS_UNIT,DELETE_CD,IS_PRIMARY_BU,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT&#xA;PARTY_KEY, BUSINESS_UNIT,'N' AS DELETE_CD,'1' AS IS_PRIMARY_BU,GETDATE() AS GSSS_UPDATED,'CLIENT' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_CLIENT_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;&#xA;--INSERT GSSS_CLIENT_MASTER TO PARTY_DOCUMENTATION&#xA;INSERT INTO dbo.PARTY_DOCUMENTATION(&#xA;PARTY_KEY,BUSINESS_UNIT,DELETE_CD,DOC_TYPE_CD,DOC_NUMBER,ISSUE_COUNTRY_CD&#xA;,GSSS_UPDATED,SOURCE_TYPE)&#xA;SELECT DISTINCT&#xA;PARTY_KEY, BUSINESS_UNIT,'N' AS DELETE_CD, '7' AS DOC_TYPE_CD,COMPANY_TAX_NUMBER,BILLING_COUNTRY&#xA;,GETDATE() AS GSSS_UPDATED,'CLIENT' AS SOURCE_TYPE&#xA;FROM dbo.GSSS_CLIENT_MASTER WHERE BUSINESS_UNIT = 'AzP NZ AHS';&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{29666271-82a4-4d42-9a4f-b6baa8400832}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MIDAS-GSSS-GSSS_CLIENT_MASTER"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Conditional Split"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input].Columns[Billing State/Province]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing State/Province"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input].Columns[PARTY_KEY]"
+                          cachedDataType="wstr"
+                          cachedLength="266"
+                          cachedName="PARTY_KEY"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input].Columns[Company Tax Number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Company Tax Number"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[BillingStateProvince]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="BillingStateProvince"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">![ISNULL](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]}) &amp;&amp; [LEN](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]}) &gt; 20</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!ISNULL([Billing State/Province]) &amp;&amp; LEN([Billing State/Province]) &gt; 20</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[PartyKey]"
+                      description="Output 2 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="PartyKey"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">[LEN](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]}) &gt; 50</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">LEN(PARTY_KEY) &gt; 50</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">1</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Docnumber]"
+                      description="Output 3 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Docnumber"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">![ISNULL](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]}) &amp;&amp; [LEN](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]}) &gt; 50</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">!ISNULL([Company Tax Number]) &amp;&amp; LEN([Company Tax Number]) &gt; 50</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">2</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Default Output]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Conditional Split Default Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Account ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account ID"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Account Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account Name"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Entity Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Entity Name"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Entity Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Sales Lead Entity]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Sales Lead Entity"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Billing Address Line 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 1"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Billing Address Line 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 2"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input].Columns[Billing Address Line 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 3"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]"
+                          name="CLIENT_FIRST_NAME"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">[ISNULL](#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Entity Name]}) ? #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]} : #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Entity Name]}</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">ISNULL([Entity Name]) ? [Account Name] : [Entity Name]</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="34"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]"
+                          name="INFO_FIELD1"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]} == "NEW ZEALAND" ? "ALERT_BU=AzP NZ Sales Distribution" : "ALERT_BU=AzP AU Sales Distribution"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[Sales Lead Entity] == "NEW ZEALAND" ? "ALERT_BU=AzP NZ Sales Distribution" : "ALERT_BU=AzP AU Sales Distribution"</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="266"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]"
+                          name="PARTY_KEY"
+                          truncationRowDisposition="IgnoreFailure">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]} == "NEW ZEALAND" ? "NZ0001" + #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]} + "MIDAS" : "AU0001" + #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]} + "MIDAS"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[Sales Lead Entity] == "NEW ZEALAND" ? "NZ0001" + [Account ID] + "MIDAS" : "AU0001" + [Account ID] + "MIDAS"</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[ALERT_BU]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="34"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[ALERT_BU]"
+                          name="ALERT_BU"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]} == "NEW ZEALAND" ? "ALERT_BU=AzP NZ Sales Distribution" : "ALERT_BU=AzP AU Sales Distribution"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[Sales Lead Entity] == "NEW ZEALAND" ? "ALERT_BU=AzP NZ Sales Distribution" : "ALERT_BU=AzP AU Sales Distribution"</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="2"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]"
+                          name="BILLING_COUNTRY"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]} == "NEW ZEALAND" ? "NZ" : "AU"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[Sales Lead Entity] == "NEW ZEALAND" ? "NZ" : "AU"</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BUSINESS_UNIT]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="10"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BUSINESS_UNIT]"
+                          name="BUSINESS_UNIT"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]} == "NEW ZEALAND" ? "AzP NZ AHS" : "AzP AU AHS"</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">[Sales Lead Entity] == "NEW ZEALAND" ? "AzP NZ AHS" : "AzP AU AHS"</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[ADDRESS]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="765"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[ADDRESS]"
+                          name="ADDRESS"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">(#{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]} + #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]} + #{Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]})</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">([Billing Address Line 1] + [Billing Address Line 2] + [Billing Address Line 3])</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  validateExternalMetadata="False"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">'GSSS Client Listing (Justin Wal$'</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account Name]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]"
+                          name="Account Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Entity Name]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Entity Name]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Entity Name]"
+                          name="Entity Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Company Tax Number]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]"
+                          name="Company Tax Number"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Street]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Street]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Street]"
+                          name="Billing Street"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 1]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]"
+                          name="Billing Address Line 1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 2]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]"
+                          name="Billing Address Line 2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 3]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]"
+                          name="Billing Address Line 3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing City]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]"
+                          name="Billing City"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing State/Province]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]"
+                          name="Billing State/Province"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Zip/Postal Code]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]"
+                          name="Billing Zip/Postal Code"
+                          truncationRowDisposition="IgnoreFailure" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Country]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Country]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Country]"
+                          name="Billing Country"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account ID]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]"
+                          name="Account ID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sales Lead Entity]"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Sales Lead Entity]"
+                          name="Sales Lead Entity"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account Name" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Entity Name]"
+                          dataType="wstr"
+                          length="255"
+                          name="Entity Name" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Company Tax Number]"
+                          dataType="wstr"
+                          length="255"
+                          name="Company Tax Number" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Street]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Street" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 1]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Address Line 1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 2]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Address Line 2" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Address Line 3]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Address Line 3" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing City]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing City" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing State/Province]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing State/Province" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Zip/Postal Code]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Zip/Postal Code" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Billing Country]"
+                          dataType="wstr"
+                          length="255"
+                          name="Billing Country" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Account ID]"
+                          dataType="wstr"
+                          length="255"
+                          name="Account ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].ExternalColumns[Sales Lead Entity]"
+                          dataType="wstr"
+                          length="255"
+                          name="Sales Lead Entity" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Account ID]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Account ID]"
+                          name="Account ID" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Account Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Account Name]"
+                          name="Account Name" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Entity Name]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Entity Name]"
+                          name="Entity Name" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Company Tax Number]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Company Tax Number]"
+                          name="Company Tax Number" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Street]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Street]"
+                          name="Billing Street" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 1]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 1]"
+                          name="Billing Address Line 1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 2]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 2]"
+                          name="Billing Address Line 2" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 3]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Address Line 3]"
+                          name="Billing Address Line 3" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing City]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing City]"
+                          name="Billing City" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing State/Province]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing State/Province]"
+                          name="Billing State/Province" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Zip/Postal Code]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Zip/Postal Code]"
+                          name="Billing Zip/Postal Code" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Country]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Billing Country]"
+                          name="Billing Country" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Sales Lead Entity]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[Sales Lead Entity]"
+                          name="Sales Lead Entity" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast"
+                  componentClassID="Microsoft.Multicast"
+                  contactInfo="Multicast;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Distributes every input row to every row in one or more outputs. For example, branch your data flow to make a copy of data so that some values can be masked before sharing with external partners."
+                  name="Multicast">
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Inputs[Multicast Input 1]"
+                      name="Multicast Input 1">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Outputs[Multicast Output 2]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 2"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Outputs[Multicast Output 1]"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 1"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Outputs[Multicast Output 3]"
+                      dangling="true"
+                      deleteOutputOnPathDetached="true"
+                      name="Multicast Output 3"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Inputs[Multicast Input 1]">
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB - BILLING STATE PROVINCE"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GSSS_CLIENT_MASTER_ERROR]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Account ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account ID"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Account Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account Name"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Company Tax Number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Company Tax Number"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing Street]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Street"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Street]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing Address Line 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing Address Line 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 2"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing Address Line 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 3"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing City]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing City"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing State/Province]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing State/Province"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[Billing Zip/Postal Code]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Zip/Postal Code"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[PARTY_KEY]"
+                          cachedDataType="wstr"
+                          cachedLength="266"
+                          cachedName="PARTY_KEY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[INFO_FIELD1]"
+                          cachedDataType="wstr"
+                          cachedLength="34"
+                          cachedName="INFO_FIELD1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[CLIENT_FIRST_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CLIENT_FIRST_NAME"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].Columns[BILLING_COUNTRY]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="BILLING_COUNTRY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="ACCOUNT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          dataType="wstr"
+                          length="50"
+                          name="COMPANY_TAX_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STREET" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE2" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE3" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_CITY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STATE_PROVINCE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ZIP_POSTAL_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_COUNTRY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ALERT_BU" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          dataType="wstr"
+                          length="4000"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          dataType="wstr"
+                          length="50"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE_TYPE]"
+                          dataType="wstr"
+                          length="50"
+                          name="SOURCE_TYPE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB - DOC NUMBER"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GSSS_CLIENT_MASTER_ERROR]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[INFO_FIELD1]"
+                          cachedDataType="wstr"
+                          cachedLength="34"
+                          cachedName="INFO_FIELD1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[PARTY_KEY]"
+                          cachedDataType="wstr"
+                          cachedLength="266"
+                          cachedName="PARTY_KEY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Account ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account ID"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Account Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account Name"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Company Tax Number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Company Tax Number"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing Street]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Street"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Street]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing Address Line 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing Address Line 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 2"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing Address Line 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 3"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing City]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing City"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing State/Province]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing State/Province"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[Billing Zip/Postal Code]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Zip/Postal Code"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[CLIENT_FIRST_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CLIENT_FIRST_NAME"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].Columns[BILLING_COUNTRY]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="BILLING_COUNTRY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="ACCOUNT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          dataType="wstr"
+                          length="50"
+                          name="COMPANY_TAX_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STREET" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE2" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE3" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_CITY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STATE_PROVINCE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ZIP_POSTAL_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_COUNTRY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ALERT_BU" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          dataType="wstr"
+                          length="4000"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          dataType="wstr"
+                          length="50"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE_TYPE]"
+                          dataType="wstr"
+                          length="50"
+                          name="SOURCE_TYPE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB - PARTY KEY ERROR"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GSSS_CLIENT_MASTER_ERROR]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Account ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account ID"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Account Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account Name"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Company Tax Number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Company Tax Number"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing Street]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Street"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Street]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing Address Line 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing Address Line 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 2"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing Address Line 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 3"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing City]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing City"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing State/Province]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing State/Province"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[Billing Zip/Postal Code]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Zip/Postal Code"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[PARTY_KEY]"
+                          cachedDataType="wstr"
+                          cachedLength="266"
+                          cachedName="PARTY_KEY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[INFO_FIELD1]"
+                          cachedDataType="wstr"
+                          cachedLength="34"
+                          cachedName="INFO_FIELD1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[CLIENT_FIRST_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CLIENT_FIRST_NAME"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].Columns[BILLING_COUNTRY]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="BILLING_COUNTRY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="ACCOUNT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          dataType="wstr"
+                          length="50"
+                          name="COMPANY_TAX_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STREET" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE2" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE3" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_CITY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STATE_PROVINCE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ZIP_POSTAL_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_COUNTRY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          codePage="1252"
+                          dataType="str"
+                          length="255"
+                          name="ALERT_BU" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          dataType="wstr"
+                          length="4000"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          dataType="wstr"
+                          length="50"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE_TYPE]"
+                          dataType="wstr"
+                          length="50"
+                          name="SOURCE_TYPE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[GSSS_CLIENT_MASTER]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      connectionManagerRefId="Package.ConnectionManagers[aubiwsqlPRD.GSSS]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PARTY_KEY]"
+                          cachedDataType="wstr"
+                          cachedLength="266"
+                          cachedName="PARTY_KEY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[PARTY_KEY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[INFO_FIELD1]"
+                          cachedDataType="wstr"
+                          cachedLength="34"
+                          cachedName="INFO_FIELD1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[INFO_FIELD1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Account ID]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account ID"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account ID]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Account Name]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Account Name"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Account Name]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Company Tax Number]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Company Tax Number"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Company Tax Number]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing City]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing City"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing City]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing State/Province]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing State/Province"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing State/Province]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing Zip/Postal Code]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Zip/Postal Code"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Zip/Postal Code]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CLIENT_FIRST_NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CLIENT_FIRST_NAME"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[CLIENT_FIRST_NAME]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ALERT_BU]"
+                          cachedDataType="wstr"
+                          cachedLength="34"
+                          cachedName="ALERT_BU"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[ALERT_BU]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BUSINESS_UNIT]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="BUSINESS_UNIT"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUSINESS_UNIT]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BUSINESS_UNIT]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BILLING_COUNTRY]"
+                          cachedDataType="wstr"
+                          cachedLength="2"
+                          cachedName="BILLING_COUNTRY"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output].Columns[BILLING_COUNTRY]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing Address Line 1]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 1"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 1]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing Address Line 2]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 2"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 2]" />
+                        <inputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Billing Address Line 3]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Billing Address Line 3"
+                          externalMetadataColumnId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output].Columns[Billing Address Line 3]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ALERT_BU]"
+                          dataType="wstr"
+                          length="255"
+                          name="ALERT_BU" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[INFO_FIELD1]"
+                          dataType="wstr"
+                          length="4000"
+                          name="INFO_FIELD1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PARTY_KEY]"
+                          dataType="wstr"
+                          length="50"
+                          name="PARTY_KEY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_ID]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ACCOUNT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="ACCOUNT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CLIENT_NAME]"
+                          dataType="wstr"
+                          length="50"
+                          name="CLIENT_NAME" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[COMPANY_TAX_NUMBER]"
+                          dataType="wstr"
+                          length="50"
+                          name="COMPANY_TAX_NUMBER" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STREET]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_STREET" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE1]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE1" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE2]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE2" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ADDRESS_LINE3]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ADDRESS_LINE3" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_CITY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_CITY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_STATE_PROVINCE]"
+                          dataType="wstr"
+                          length="20"
+                          name="BILLING_STATE_PROVINCE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_ZIP_POSTAL_CODE]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_ZIP_POSTAL_CODE" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BILLING_COUNTRY]"
+                          dataType="wstr"
+                          length="255"
+                          name="BILLING_COUNTRY" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BUSINESS_UNIT]"
+                          dataType="wstr"
+                          length="50"
+                          name="BUSINESS_UNIT" />
+                        <externalMetadataColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SOURCE_TYPE]"
+                          dataType="wstr"
+                          length="50"
+                          name="SOURCE_TYPE" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[BillingStateProvince]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE.Inputs[OLE DB Destination Input]"
+                  name="BillingStateProvince"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[BillingStateProvince]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Derived Column Output]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Inputs[Multicast Input 1]"
+                  name="Derived Column Output"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Docnumber]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER.Inputs[OLE DB Destination Input]"
+                  name="Docnumber"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[Docnumber]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Excel Source Output]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column.Inputs[Derived Column Input]"
+                  name="Excel Source Output"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Multicast Output 1]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Inputs[Conditional Split Input]"
+                  name="Multicast Output 1"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Outputs[Multicast Output 1]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Multicast Output 2]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Multicast Output 2"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast.Outputs[Multicast Output 2]" />
+                <path
+                  refId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[PartyKey]"
+                  endId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR.Inputs[OLE DB Destination Input]"
+                  name="PartyKey"
+                  startId="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split.Outputs[PartyKey]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_CLIENT\Truncate GSSS_GSSS_CLIENT_MASTER"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{20862e8c-dee5-4783-ba36-b228dba3138c}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate GSSS_GSSS_CLIENT_MASTER"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{72DF970C-AE15-42E5-9495-83D8AC64EAAA}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [GSSS].[dbo].[GSSS_CLIENT_MASTER]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\MIDAS_CLIENT\UPDATE COUNTRY"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{c3593b2d-63ff-4988-a195-878227f459ac}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UPDATE COUNTRY"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{72DF970C-AE15-42E5-9495-83D8AC64EAAA}"
+              SQLTask:SqlStatementSource="--UPDATING BILLING STREET,BILLING_ADDRESS_LINE1,BILLING_ADDRESS_LINE2  IN  [dbo].[GSSS_CLIENT_MASTER]&#xA;UPDATE [dbo].[GSSS_CLIENT_MASTER]&#xA;SET [dbo].[GSSS_CLIENT_MASTER].[BILLING_STREET] = REPLACE([dbo].[GSSS_CLIENT_MASTER].[BILLING_STREET], ';', ' ') ,&#xA;[dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE1] = REPLACE([dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE1], ';', ' '),&#xA;[dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE2] = REPLACE([dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE2], ';', ' ')&#xA;WHERE [dbo].[GSSS_CLIENT_MASTER].[BILLING_STREET] LIKE '%;%' OR [dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE1] LIKE '%;%'&#xA;OR [dbo].[GSSS_CLIENT_MASTER].[BILLING_ADDRESS_LINE2] LIKE '%;%'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{a59d6a99-1c87-4ed9-a9e5-beaf88dca8ab}"
+          DTS:From="Package\MIDAS_CLIENT\Truncate GSSS_GSSS_CLIENT_MASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\MIDAS_CLIENT\DELETE WHERE CLIENT GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{e9dee7d5-0fb5-4f26-98bf-adc880446d94}"
+          DTS:From="Package\MIDAS_CLIENT\DELETE WHERE CLIENT GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{002f4022-d486-42ae-9498-e6b051d84cfb}"
+          DTS:From="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\MIDAS_CLIENT\UPDATE COUNTRY" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{df1312eb-68cf-48b6-9075-51d9685d1179}"
+          DTS:From="Package\MIDAS_CLIENT\UPDATE COUNTRY"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\MIDAS_CLIENT\GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="714,42"
+          Id="Package\MIDAS_CLIENT\DELETE WHERE CLIENT GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          TopLeft="74,111" />
+        <NodeLayout
+          Size="582.666666666667,42"
+          Id="Package\MIDAS_CLIENT\GSSS-GSSS_CLIENT_MASTER TO PARTY, ALIAS,ADDRESS,BUSINESS_UNIT,DOCUMENTATION"
+          TopLeft="139,332" />
+        <NodeLayout
+          Size="278.666666666667,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER"
+          TopLeft="298.499999962747,188.684210539194" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\MIDAS_CLIENT\Truncate GSSS_GSSS_CLIENT_MASTER"
+          TopLeft="283,28" />
+        <NodeLayout
+          Size="181.333333333334,42"
+          Id="Package\MIDAS_CLIENT\UPDATE COUNTRY"
+          TopLeft="343,258" />
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint]"
+          TopLeft="429.5,70">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41"
+              Start="0,0"
+              End="0,33.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 1]"
+          TopLeft="434.41666664804,153">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.6842105391944"
+              Start="0,0"
+              End="0,28.1842105391944">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.1842105391944" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 2]"
+          TopLeft="435.749999981374,230.684210539194">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3157894608056"
+              Start="0,0"
+              End="0,19.8157894608056">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8157894608056" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT.PrecedenceConstraints[Constraint 3]"
+          TopLeft="432,300">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="1014.66666666667,441.333333333334"
+          Size="1014.66666666667,484"
+          Id="Package\MIDAS_CLIENT"
+          TopLeft="331.24999506399,166.947371563423" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="270,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - BILLING STATE PROVINCE"
+          TopLeft="677,466" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Excel Source"
+          TopLeft="656,53" />
+        <NodeLayout
+          Size="204,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - DOC NUMBER"
+          TopLeft="546,546" />
+        <NodeLayout
+          Size="123,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Multicast"
+          TopLeft="683,283" />
+        <NodeLayout
+          Size="153,43"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Derived column"
+          TopLeft="649,156" />
+        <NodeLayout
+          Size="186,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB - PARTY KEY ERROR"
+          TopLeft="391,471" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\Conditional Split"
+          TopLeft="558,369" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER\OLE DB Destination"
+          TopLeft="769,374" />
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[BillingStateProvince]"
+          TopLeft="662.666666666667,411">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="149.333333333333,55"
+              Start="0,0"
+              End="149.333333333333,47.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.3287671232877" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.3287671232877"
+                    Point2="0,22.3287671232877"
+                    Point3="4,22.3287671232877" />
+                  <mssgle:LineSegment
+                    End="145.333333333333,22.3287671232877" />
+                  <mssgle:CubicBezierSegment
+                    Point1="145.333333333333,22.3287671232877"
+                    Point2="149.333333333333,22.3287671232877"
+                    Point3="149.333333333333,26.3287671232877" />
+                  <mssgle:LineSegment
+                    End="149.333333333333,47.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="31.0753190104165,27.3287671232877,87.1826953125,11.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[PartyKey]"
+          TopLeft="612.333333333333,411">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-128.333333333333,60"
+              Start="0,0"
+              End="-128.333333333333,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3586550435865" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.3586550435865"
+                    Point2="0,24.3586550435865"
+                    Point3="-4,24.3586550435865" />
+                  <mssgle:LineSegment
+                    End="-124.333333333333,24.3586550435865" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-124.333333333333,24.3586550435865"
+                    Point2="-128.333333333333,24.3586550435865"
+                    Point3="-128.333333333333,28.3586550435865" />
+                  <mssgle:LineSegment
+                    End="-128.333333333333,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-84.1836002604165,29.3586550435865,40.0338671875,11.2822265625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Multicast Output 2]"
+          TopLeft="763.666666666667,325">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="93.8333333333334,49"
+              Start="0,0"
+              End="93.8333333333334,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.9775280898877" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,15.9775280898877"
+                    Point2="0,19.9775280898877"
+                    Point3="4,19.9775280898877" />
+                  <mssgle:LineSegment
+                    End="89.8333333333334,19.9775280898877" />
+                  <mssgle:CubicBezierSegment
+                    Point1="89.8333333333334,19.9775280898877"
+                    Point2="93.8333333333334,19.9775280898877"
+                    Point3="93.8333333333334,23.9775280898877" />
+                  <mssgle:LineSegment
+                    End="93.8333333333334,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Multicast Output 1]"
+          TopLeft="725.333333333333,325">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-87.8333333333334,44"
+              Start="0,0"
+              End="-87.8333333333334,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.9390048154093" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.9390048154093"
+                    Point2="0,17.9390048154093"
+                    Point3="-4,17.9390048154093" />
+                  <mssgle:LineSegment
+                    End="-83.8333333333334,17.9390048154093" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-83.8333333333334,17.9390048154093"
+                    Point2="-87.8333333333334,17.9390048154093"
+                    Point3="-87.8333333333334,21.9390048154093" />
+                  <mssgle:LineSegment
+                    End="-87.8333333333334,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Excel Source Output]"
+          TopLeft="726.833333333333,95">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61"
+              Start="0,0"
+              End="0,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Docnumber]"
+          TopLeft="637.5,411">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.5,135"
+              Start="0,0"
+              End="10.5,127.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,63.5"
+                    Point2="0,67.5"
+                    Point3="4,67.5" />
+                  <mssgle:LineSegment
+                    End="6.5,67.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.5,67.5"
+                    Point2="10.5,67.5"
+                    Point3="10.5,71.5" />
+                  <mssgle:LineSegment
+                    End="10.5,127.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-20.74369140625,72.5,51.9873828125,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\MIDAS_CLIENT\MIDAS-GSSS-GSSS_CLIENT_MASTER.Paths[Derived Column Output]"
+          TopLeft="725.666666666667,198.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.6666666666667,84.3333333333333"
+              Start="0,0"
+              End="18.6666666666667,76.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.1666666666667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,38.1666666666667"
+                    Point2="0,42.1666666666667"
+                    Point3="4,42.1666666666667" />
+                  <mssgle:LineSegment
+                    End="14.6666666666667,42.1666666666667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.6666666666667,42.1666666666667"
+                    Point2="18.6666666666667,42.1666666666667"
+                    Point3="18.6666666666667,46.1666666666667" />
+                  <mssgle:LineSegment
+                    End="18.6666666666667,76.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
